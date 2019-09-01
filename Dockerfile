@@ -11,7 +11,7 @@ COPY ./nginx_config /etc/nginx/sites-available/default
 
 # Copy the app.
 COPY ./app /app
-RUN pip3 install -r app/requirments.txt
+RUN pip3 install -r /app/requirments.txt
 
 # Setup entrypoint.
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
