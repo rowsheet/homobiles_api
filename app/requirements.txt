@@ -1,0 +1,6 @@
+pickle
+googleapiclient
+google_auth_oauthlib
+google
+email
+base64
