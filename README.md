@@ -79,7 +79,7 @@ Spec. sheet:
     Page 35:                GET     page                riders.admin.load_legal_page()
     Page 36:                GET     []ride              riders.account.load_past_rides(int limit, int offset)
     Page 37: "
-    Page 38:                POST    error               riders.payments.add_a_driver_tip(ride ride, int top_amount)
+    Page 38:                POST    error               riders.payments.add_a_driver_tip(ride ride, int tip_amount)
     Page 39: "
     Page 40: "
     Page 41: ON-LOAD        GET     []ride              riders.account.load_past_rides(int limit, int offset)
@@ -88,8 +88,8 @@ Spec. sheet:
     Page 44: NA
     Page 45: NA
     Page 46:                POST    error               riders.account.update_email_address(string email_address)
-    Page 47:                POST    error               riders.account.add_accessibility_requirments(int accessibility_requirment_key)
-                            POST    error               riders.account.remove_accessibility_requirments(int accessibility_requirment_key)
+    Page 47:                POST    error               riders.account.add_accessibility_requirements(int accessibility_requirment_key)
+                            POST    error               riders.account.remove_accessibility_requirements(int accessibility_requirment_key)
     Page 48:                POST    error               riders.account.update_phone_number(int phone_number)
                             POST    bool                riders.account.verify_phone_number_verification_code(int verification_code)
     Page 49:                POST    void                riders.monitoring.log_location_permission_change(bool on)
@@ -160,8 +160,8 @@ All methods:
     POST    riders.payments.add_a_driver_tip(ride ride, int top_amount)
     GET     riders.account.load_settings()
     POST    riders.account.update_email_address(string email_address)
-    POST    riders.account.add_accessibility_requirments(int accessibility_requirment_key)
-    POST    riders.account.remove_accessibility_requirments(int accessibility_requirment_key)
+    POST    riders.account.add_accessibility_requirements(int accessibility_requirment_key)
+    POST    riders.account.remove_accessibility_requirements(int accessibility_requirment_key)
     POST    riders.account.update_phone_number(int phone_number)
     POST    riders.monitoring.log_location_permission_change(bool on)
     POST    riders.monitoring.log_contacts_permission_change(bool on)
