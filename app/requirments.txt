@@ -1,3 +1,6 @@
+flask
+flask_bootstrap
 google-api-python-client
 google_auth_oauthlib
 google
+wtforms

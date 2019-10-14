@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+.important {
+    color: #336699;
+}
+ul {
+    margin: 0px;
+    padding-left: 10px;
+}
+.code_block {
+    background: #353535;
+    padding: 15px;
+}
+code {
+    color: white;
+}
+span.curl_tag {
+    color: #a9d9ff;
+}
+span.curl_key {
+    color: #e3ffc3;
+}
+.form_error li {
+    font-size: 13px;
+}
+.form_error {
+    margin-top: 15px;
+}
+.hidden {
+    display: none;
+}
+</style>
+{% endblock %}
+
+{% block header %}
+<h1>Title</h1>
+<hr>
+{% endblock %}
+
+{% macro code_tab(indent) %}{% for i in range(indent) %}&nbsp{% endfor %}{% endmacro %}
+
+{% block curl %}
+<div class="code_block">
+    <code><!--
+        -->curl {{ url }} \<br><!--
+        -->{{ code_tab(4) }}-X POST \<br>
+        {% for field_name, field in form._fields.items() %}
+            {{ code_tab(4) }}<span class="curl_tag">-d</span> 
+            <span class="curl_key">{{ field_name }}</span><!--
+            -->=<!--
+            --><span class="curl_data">"{{ field.raw_data[0] }}"</span>
+             \<br>
+        {% endfor %}
+    </code>
+</div>
+{% endblock %}
+
+{% block form %}
+<div>
+    <dl>
+    {% macro render_field(field) %}
+        {{ field(class="form-control", **kwargs)|safe }}
+        {% if field.errors %}
+            <br>
+            <div class="alert alert-danger">
+                <ul class=errors>
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endmacro %}
+
+    {% macro render_field_error(field_name) %}
+        <div id="{{ field_name }}_error" class="alert alert-danger form_error hidden">
+            <ul>
+            </ul>
+        </div>
+    {% endmacro %}
+
+    {% macro render_field_title(field) %}
+        <strong>
+            {{ field.label }}
+        </strong>
+        <small class="text-muted">
+            ({{ field.type }}{% if "required" in field.flags %}, 
+            <span style="color: #2196F3;">required</span>{% endif %})
+        </small>
+    {% endmacro %}
+
+    {% for field_name, field in form._fields.items() %}
+        {{ render_field(field) }}
+        {{ render_field_error(field_name) }}
+        {{ render_field_title(field) }}
+    {% endfor %}
+    </dl>
+<script>
+function handle_error(error) {
+    keys = Object.keys(error);
+    for (i = 0; i < keys.length; i++) {
+        key = keys[i];
+        messages = "<li>" + error[key].join("</li><li>") + "</li>";
+        $("#" + key + "_error").removeClass("hidden");
+        $("#" + key + "_error").html(messages);
+        console.log(key);
+        console.log(messages);
+    }
+}
+function ajax() {
+    data = {
+    {% for field_name in form._fields.keys() %}
+        {{ field_name }}: $("#" + "{{ field_name }}").val(),
+    {% endfor %}
+    }
+    $.ajax({
+        url: "{{ url }}",
+        method: "POST",
+        data: data,
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(error) {
+            handle_error(JSON.parse(error.responseText));
+        },
+    });
+}
+</script>
+    <button class="btn btn-primary" onclick="ajax()">Submit</button>
+</div>
+<br>
+<br>
+<br>
+{% endblock %}

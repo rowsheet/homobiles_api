@@ -1,4 +1,4 @@
-REPO_NAME=rowsheet_emailer
+REPO_NAME=homobiles_api
 SERVICE_NAME=dev--$REPO_NAME
 echo REPO_NAME:$REPO_NAME
 echo SERVICE_NAME:$SERVICE_NAME
@@ -18,8 +18,10 @@ docker build -t rowsheet/$REPO_NAME:dev .
 source ./creds
 
 docker service create \
-    --env CREDENTIALS_DOT_JSON="$CREDENTIALS_DOT_JSON" \
-    --env CREDENTIALS_DOT_TOKEN_DOT_B64="$CREDENTIALS_DOT_TOKEN_DOT_B64 " \
-    --publish 8004:80 \
+    --env PORT="$PORT" \
+    --env ROWSHEET_EMAILER_KEY="$ROWSHEET_EMAILER_KEY" \
+    --env RECAPTCHA_SECRET="$RECAPTCHA_SECRET" \
+    --env RECAPTCHA_MIN_SCORE="$RECAPTCHA_MIN_SCORE" \
+    --publish 8006:80 \
     --name $SERVICE_NAME \
     rowsheet/$REPO_NAME:dev
